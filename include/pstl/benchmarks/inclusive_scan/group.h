@@ -12,6 +12,10 @@
 #include "inclusive_scan_sycl.h"
 #endif
 
+#ifdef PSTL_BENCH_USE_GNU
+#include "inclusive_scan_gnu.h"
+#endif
+
 //region inclusive_scan_std
 template<class Policy>
 static void inclusive_scan_std_wrapper(benchmark::State & state)
@@ -66,9 +70,27 @@ static void inclusive_scan_sycl_wrapper(benchmark::State & state)
 #endif
 //endregion inclusive_scan_sycl
 
+
+//region inclusive_scan_gnu
+#ifdef PSTL_BENCH_USE_GNU
+template<class Policy>
+static void inclusive_scan_gnu_wrapper(benchmark::State & state)
+{
+	benchmark_inclusive_scan::benchmark_wrapper<Policy>(state, benchmark_inclusive_scan::inclusive_scan_gnu);
+}
+#define INCLUSIVE_SCAN_GNU_WRAPPER                                                               \
+	BENCHMARK_TEMPLATE1(inclusive_scan_gnu_wrapper, std::execution::parallel_unsequenced_policy) \
+	    ->Name(PSTL_BENCH_BENCHMARK_NAME("gnu::inclusive_scan"))                                  \
+	    ->PSTL_BENCH_BENCHMARK_PARAMETERS
+#else
+#define INCLUSIVE_SCAN_GNU_WRAPPER
+#endif
+//endregion inclusive_scan_gnu
+
 #define INCLUSIVE_SCAN_GROUP     \
 	INCLUSIVE_SCAN_SEQ_WRAPPER   \
 	INCLUSIVE_SCAN_STD_WRAPPER   \
 	INCLUSIVE_SCAN_HPX_WRAPPER   \
+	INCLUSIVE_SCAN_GNU_WRAPPER  \
 	INCLUSIVE_SCAN_SYCL_WRAPPER
 INCLUSIVE_SCAN_GROUP

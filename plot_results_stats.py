@@ -16,7 +16,9 @@ SOURCES = [
     ("results/sycl_wg1024.json", "SYCL-wg1024"),
 ]
 
-ALGORITHMS = {"find", "for_each", "inclusive_scan", "reduce"}
+ALGORITHMS = {"find", "for_each", "inclusive_scan", "reduce", "sort"}
+LINESTYLES = {"TBB": "--", "GNU": ":"}
+LINEWIDTHS = {"TBB": 2.0, "GNU": 2.0}
 OUT_DIR = "plots_stats"
 CV_WARN_THRESHOLD = 0.05  
 
@@ -120,12 +122,16 @@ for algo in sorted(ALGORITHMS):
 
     for label, group in subset.groupby("label"):
         group = group.sort_values("size")
+        if algo == "sort":
+            group = group[group["size"] >= 16]
         sizes  = group["size"].values
         median = group["median"].values / 1e6   # ns → ms
         q25    = group["q25"].values   / 1e6
         q75    = group["q75"].values   / 1e6
 
-        line, = ax.plot(sizes, median, marker="o", markersize=4, label=label)
+        ls = LINESTYLES.get(label, "-")
+        lw = LINEWIDTHS.get(label, 1.2)
+        line, = ax.plot(sizes, median, marker="o", markersize=4, label=label, linestyle=ls, linewidth=lw)
         ax.fill_between(sizes, q25, q75, alpha=0.15, color=line.get_color())
 
     ax.set_xscale("log", base=2)
