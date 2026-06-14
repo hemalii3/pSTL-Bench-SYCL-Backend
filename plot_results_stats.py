@@ -14,6 +14,7 @@ SOURCES = [
     ("results/sycl_wg256.json",  "SYCL-wg256"),
     ("results/sycl_wg512.json",  "SYCL-wg512"),
     ("results/sycl_wg1024.json", "SYCL-wg1024"),
+    ("results/sycl_cpu.json",   "SYCL-CPU"),
 ]
 
 ALGORITHMS = {"find", "for_each", "inclusive_scan", "reduce", "sort"}
