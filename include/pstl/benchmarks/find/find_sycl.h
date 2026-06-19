@@ -13,7 +13,13 @@ namespace benchmark_find {
     const auto find_sycl = [](auto&& policy, const auto& input, const pstl::elem_t& target) {
 
         auto& queue            = pstl::sycl_utils::get_queue();
-        const size_t num_elems = input.size();
+const size_t num_elems = input.size();
+
+    // guard against empty input — zero-byte GPU allocations can
+    // cause CUDA_ERROR_INVALID_VALUE on kernel launch
+    if (num_elems == 0) {
+        return input.end();
+    }
         const size_t wg        = pstl::sycl_utils::wg_size;
         const size_t global    = pstl::sycl_utils::round_up_global_size(num_elems);
 

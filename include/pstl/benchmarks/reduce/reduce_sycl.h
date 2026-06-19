@@ -15,6 +15,9 @@ namespace benchmark_reduce {
         using T = pstl::elem_t;
 
         const size_t n      = input.size();
+    if (n == 0) {
+        return T(0);
+    }
         const size_t wg     = pstl::sycl_utils::wg_size;
         const size_t global = pstl::sycl_utils::round_up_global_size(n);
 

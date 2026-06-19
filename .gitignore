@@ -852,3 +852,4 @@ CMakeFiles/
 # Accidental cmake flag files
 -D*
 results/*.json
+tests/bin/

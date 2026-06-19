@@ -17,7 +17,13 @@ const auto inclusive_scan_sycl = [](auto&& policy, const auto& input, auto& outp
 
     auto& queue            = pstl::sycl_utils::get_queue();
     using T                = pstl::elem_t;
+
+
     const size_t num_elems = input.size();
+    if (num_elems == 0) {
+        output.clear();
+        return;
+    }
     const size_t wg        = pstl::sycl_utils::wg_size;
 
     // Blelloch scan requires power-of-2 size

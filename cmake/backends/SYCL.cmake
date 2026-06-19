@@ -1,6 +1,8 @@
 add_compile_definitions(PSTL_BENCH_USE_SYCL)
-add_compile_definitions(PSTL_BENCH_BACKEND="SYCL")
-
+if(NOT DEFINED PSTL_BENCH_BACKEND_LABEL)
+    set(PSTL_BENCH_BACKEND_LABEL "SYCL")
+endif()
+add_compile_definitions(PSTL_BENCH_BACKEND="${PSTL_BENCH_BACKEND_LABEL}")
 # Detect SYCL compiler: acpp (AdaptiveCpp) vs icpx (Intel DPC++)
 get_filename_component(CXX_COMPILER_NAME ${CMAKE_CXX_COMPILER} NAME)
 if(CXX_COMPILER_NAME MATCHES "acpp")

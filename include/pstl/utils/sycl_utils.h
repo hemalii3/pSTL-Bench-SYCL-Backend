@@ -16,7 +16,11 @@ namespace pstl::sycl_utils
 
     inline sycl::queue & get_queue()
     {
+#if defined(PSTL_BENCH_FORCE_CPU_DEVICE)
+        static sycl::queue q{ sycl::cpu_selector_v };
+#else
         static sycl::queue q{ sycl::default_selector_v };
+#endif
         return q;
     }
 } // namespace pstl::sycl_utils

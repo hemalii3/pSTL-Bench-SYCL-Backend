@@ -11,8 +11,13 @@ namespace benchmark_for_each {
 
         auto & q = pstl::sycl_utils::get_queue();
 
-        const size_t n = input.size();
+const size_t n = input.size();
 
+    // guard against empty input — zero-byte GPU allocations can
+    // cause CUDA_ERROR_INVALID_VALUE on kernel launch
+    if (n == 0) {
+        return;
+    }
         const size_t global = pstl::sycl_utils::round_up_global_size(n);
 
         const size_t wg = pstl::sycl_utils::wg_size;
