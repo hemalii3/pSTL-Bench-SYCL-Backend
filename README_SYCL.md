@@ -8,20 +8,11 @@ All in `include/pstl/benchmarks/<algo>/`:
 
 | File | Description |
 |------|-------------|
-| `find/find_sycl.h` | Parallel find with atomic early-exit flag |
+| `find/find_sycl.h` | Parallel find with atomic flag |
 | `for_each/for_each_sycl.h` | nd_range parallel_for |
 | `reduce/reduce_sycl.h` | Tree reduction with local memory |
-| `inclusive_scan/inclusive_scan_sycl.h` | Multi-pass Hillis-Steele prefix sum |
+| `inclusive_scan/inclusive_scan_sycl.h` | blelloch scan |
 | `sort/sort_sycl.h` | Bitonic sort with SYCL event-chaining  |
-| `inclusive_scan/inclusive_scan_gnu.h` | GNU/OpenMP parallel inclusive_scan |
-
-### Modified Files
-| File | Change |
-|------|--------|
-| `include/pstl/benchmarks/inclusive_scan/group.h` | Added GNU backend registration |
-| `cmake/backends/SYCL.cmake` | AdaptiveCpp detection, skips -fsycl for acpp |
-| `plot_results_stats.py` |  benchmark name prefix as label, GNU=dotted, TBB=dashed |
-| `compare_wg_sizes.py` | wg_size overlay plots and heatmaps |
 
 
 ## Hardware (exa03)
